@@ -105,7 +105,7 @@ helm repo add jenkins https://charts.jenkins.io
 helm repo update
 ```
 
-Создаем файл *jenkins-values.yaml*
+Редактируем файл *values.yaml*
 
 Редактируем:
 ```sh
@@ -121,7 +121,7 @@ persistence:
 Устанавливаем:
 
 ```sh
-helm install jenkins jenkins/jenkins -f jenkins-values.yaml
+helm install jenkins jenkins/jenkins -f values.yaml
 ```
 
 Получаем пароль
@@ -165,7 +165,22 @@ pass: DX0xsJC3HMS29PiSM2MkPJ (может быть и admin)
 Далее создаем новый item->создаем фристайл задачу->указываем гит репу и ветку
 ![jenk](screen/jenk.png)
 
-Так же, создаем jenkins-rbac.yml 
+Так же, создаем jenkins-rbac.yml (необязательно, у меня просто ругалось на отсутствие sudo)
+```sh
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: jenkins-role-binding
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+```
+
 Листаем в самый низ и выбираем **выполнить команду shell**
 ```sh
 # Устанавливаем helm в домашнюю директорию пользователя

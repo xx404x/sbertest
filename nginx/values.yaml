@@ -30,14 +30,14 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: ClusterIP
+  type: NodePort
   port: 80
+  nodePort: 32080
 
 ingress:
-  enabled: true
-  className: nginx
-  annotations:
-    nginx.ingress.kubernetes.io/port: "32080"
+  enabled: false
+  className: ""
+  annotations: {}
   hosts:
     - host: "example.local"
       paths:
